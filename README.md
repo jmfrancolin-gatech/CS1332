@@ -1,2 +1,2 @@
-# CS1332
 # Data_Structures
+Data Structures & Algorithms in Java
