@@ -33,16 +33,16 @@ public class AVL<T extends Comparable<? super T>> {
      * @throws IllegalArgumentException if data or any element in data is null
      */
     public AVL(Collection<T> data) {
-    	
-    	// check for exceptions
-    	if (data == null) {
-        	throw new IllegalArgumentException(
-        	"Data structure does not support null entries");
+        
+        // check for exceptions
+        if (data == null) {
+            throw new IllegalArgumentException(
+            "Data structure does not support null entries");
         }
         // add nodes from collection
         for (T node: data) {
             add(node);
-		}
+        }
     }
 
     /**
@@ -70,8 +70,11 @@ public class AVL<T extends Comparable<? super T>> {
     }
 
     /**
-     *
-     *
+     * Recursively adds data to the tree
+     * 
+     * @param data the data to added
+     * @param node the root node for a subtree
+     * @return the root node of the tree
      */    
     private AVLNode<T> add(T data, AVLNode<T> node) {
         
@@ -95,10 +98,12 @@ public class AVL<T extends Comparable<? super T>> {
     }
 
     /**
-     *
-     *
-     */
-	private AVLNode<T> rotate(AVLNode<T> node) {
+     * Decides how to rotate a node
+     * 
+     * @param node the node to possibly be rotated
+     * @return the node
+     */ 
+    private AVLNode<T> rotate(AVLNode<T> node) {
 
         // left rotation    
         if (node.getBalanceFactor() > 1) {
@@ -117,13 +122,15 @@ public class AVL<T extends Comparable<? super T>> {
             node = rotateLeft(node);
         }
         return node;
-	}
+    }
 
     /**
-     *
-     *
-     */
-	private AVLNode<T> rotateLeft(AVLNode<T> node) {
+     * Left rotate a node
+     * 
+     * @param node the node to be rotated
+     * @return the node
+     */ 
+    private AVLNode<T> rotateLeft(AVLNode<T> node) {
     
         // get right-child
         AVLNode<T> rightChild = node.getRight();
@@ -135,13 +142,15 @@ public class AVL<T extends Comparable<? super T>> {
         update(rightChild.getLeft());
         update(rightChild);
         return rightChild;
-	}
+    }
 
     /**
-     *
-     *
-     */
-	private AVLNode<T> rotateRight(AVLNode<T> node) {
+     * Right rotate a node
+     * 
+     * @param node the node to be rotated
+     * @return the node
+     */ 
+    private AVLNode<T> rotateRight(AVLNode<T> node) {
     
         // get left-child
         AVLNode<T> leftChild = node.getLeft();
@@ -153,11 +162,12 @@ public class AVL<T extends Comparable<? super T>> {
         update(leftChild.getRight());
         update(leftChild);
         return leftChild;
-	}
+    }
 
     /**
-     *
-     *
+     * Update hight and balancing factor
+     * 
+     * @param node the node to be updated
      */ 
     private void update(AVLNode<T> node) {
     
@@ -210,12 +220,16 @@ public class AVL<T extends Comparable<? super T>> {
         // find and remove node with data
         root = remove(data, root, buffer);
         // return saved value
-		return buffer.getData();
+        return buffer.getData();
     }
 
     /**
-     *
-     *
+     * Recursively finds and removes a node
+     * 
+     * @param data the data to removed
+     * @param node a tracker node
+     * @param buffer a node to store the data
+     * @return the node
      */
     private AVLNode<T> remove(T data, AVLNode<T> node, AVLNode<T> buffer) {
         
@@ -245,13 +259,16 @@ public class AVL<T extends Comparable<? super T>> {
         // update and return
         update(node);
         return rotate(node);
-	}
+    }
 
     /**
+     * Finds the node successor after removal
      *
-     *
+     * @param node the node to be succeded
+     * @param successor a tracker node for candidates
+     * @return successor node
      */
-	private AVLNode<T> successor(AVLNode<T> node, AVLNode<T> successor) {
+    private AVLNode<T> successor(AVLNode<T> node, AVLNode<T> successor) {
     
         // instanciate successor
         if (node.getLeft() == null) {
@@ -264,7 +281,7 @@ public class AVL<T extends Comparable<? super T>> {
         update(node);
         rotate(node);
         return node;
-	}
+    }
 
     /**
      * Returns the data in the tree matching the parameter passed in (think
@@ -286,13 +303,16 @@ public class AVL<T extends Comparable<? super T>> {
         }
 
         // travel the tree until data is found
-		return get(data, root).getData();
+        return get(data, root).getData();
     }
 
     /**
-     *
-     *
-     */
+     * Transverse tree to find data
+     * 
+     * @param data the data to be found
+     * @param node the root node for a subtree
+     * @return the root node of the tree
+     */ 
     private AVLNode<T> get(T data, AVLNode<T> node) {
     
         // check for exceptions
@@ -310,7 +330,7 @@ public class AVL<T extends Comparable<? super T>> {
         }
         // found data
         return node;
-	}
+    }
 
     /**
      * Returns whether or not data equivalent to the given parameter is
@@ -338,7 +358,7 @@ public class AVL<T extends Comparable<? super T>> {
         } catch (NoSuchElementException e) {
             // return false otherwise
             return false;
-		}
+        }
     }
 
     /**
@@ -384,8 +404,10 @@ public class AVL<T extends Comparable<? super T>> {
     }
 
     /**
-     *
-     *
+     * Transverse tree with the deepest brach
+     * 
+     * @param node the root node for a subtree
+     * @param list the list to add data to
      */
     private void deepestBranches(AVLNode<T> node, List<T> list) {
     
@@ -456,12 +478,16 @@ public class AVL<T extends Comparable<? super T>> {
         List<T> list = new ArrayList<>();
         // travel tree and add to list
         sortedInBetween(data1, data2, root, list);
-		return list;
+        return list;
     }
 
     /**
-     *
-     *
+     * Transverse tree within the given range
+     * 
+     * @param data1 lower threshold
+     * @param data2 upper threshold
+     * @param node tracker node
+     * @param list the list to add data to
      */
     private void sortedInBetween(T data1, T data2, AVLNode<T> node,
         List<T> list) {
@@ -484,7 +510,7 @@ public class AVL<T extends Comparable<? super T>> {
         if (data2.compareTo(node.getData()) > 0) {
             sortedInBetween(data1, data2, node.getRight(), list);
         }
-	}
+    }
 
     /**
      * Clears the tree.
@@ -492,7 +518,7 @@ public class AVL<T extends Comparable<? super T>> {
     public void clear() {
         
         root = null;
-		size = 0;
+        size = 0;
     }
 
     /**
@@ -505,12 +531,12 @@ public class AVL<T extends Comparable<? super T>> {
      */
     public int height() {
 
-        // root is null		
+        // root is null     
         if (root == null) {
             return -1;
         }
 
- 		return root.getHeight();
+        return root.getHeight();
     }
 
     /**
